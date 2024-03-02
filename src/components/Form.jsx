@@ -4,14 +4,17 @@ const Form = ({ onSubmit, onReset }) => {
    const [filterType, setFilterType] = useState('product')
    const [inputText, setInputText] = useState('')
 
+   // Обработчик изменения типа фильтрации
    const handleFilterChange = (e) => {
       setFilterType(e.target.value)
    }
 
+   // Обработчик изменения ввода текста
    const handleInputChange = (e) => {
       setInputText(e.target.value)
    }
 
+   // Обработчик отправки формы
    const handleSubmit = (e) => {
       e.preventDefault()
 
@@ -30,7 +33,9 @@ const Form = ({ onSubmit, onReset }) => {
       onSubmit(filter)
    }
 
+   // Обработчик сброса формы
    const handleReset = (e) => {
+      document.getElementById('filter').classList.remove("void")
       setInputText('')
       setFilterType('product')
 

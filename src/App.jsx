@@ -5,6 +5,7 @@ import generateToken from "./utils/generateToken"
 import axios from "axios"
 import Form from "./components/Form"
 
+// URL и лимит продуктов на странице
 const URL = 'http://api.valantis.store:40000/'
 const LIMIT = 50
 
@@ -23,7 +24,7 @@ function App() {
       getProducts(offsetNum, existFilter)
    }, [isError])
 
-
+   // Функция для получения идентификаторов продуктов с сервера
    async function fetchIds(offset) {
 
       try {
@@ -68,6 +69,7 @@ function App() {
 
    }
 
+   // Функция для получения продуктов по их идентификаторам
    async function fetchProducts(arrIDs) {
 
       try {
@@ -95,6 +97,7 @@ function App() {
       }
    }
 
+   // Функция для получения продуктов с учетом фильтрации
    async function getProducts(offset, filter) {
       try {
          setIsLoading(true)
@@ -136,12 +139,11 @@ function App() {
 
    }
 
+   // Функция для получения идентификаторов отфильтрованных продуктов
    async function fetchFilteredProducts({ filterKey, filterValue }) {
-      console.log(filterKey, filterValue)
 
       try {
          const token = generateToken();
-         console.log(token)
 
          const response = await axios({
             method: 'POST',
@@ -155,12 +157,10 @@ function App() {
                "params": { [filterKey]: filterValue }
             }
          })
-         console.log(response)
          if (response.statusText !== 'OK') throw new Error('Ошибка функции запроса "fetchFilteredProducts"!')
 
 
          const data = await response.data
-         console.log(data.result)
          return data.result
       } catch (error) {
          console.error("Error fetching products:", error);
@@ -168,8 +168,7 @@ function App() {
    }
 
 
-
-
+   // Обработчики для навигации по страницам
    const nextProductsHandler = () => {
       if (activePage + 1 >= Math.ceil(productCount / LIMIT)) return
       setActivePage(prevPage => prevPage + 1)
@@ -192,6 +191,7 @@ function App() {
       getProducts(page * LIMIT, existFilter)
    }
 
+   // Обработчики для отправки и сброса фильтра
    const submitHandler = (filter) => {
       setExistFilter(filter)
       getProducts(0, filter)

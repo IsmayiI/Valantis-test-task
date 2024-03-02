@@ -1,14 +1,20 @@
 
 const Pagination = ({ onNext, onPrev, onTurnPage, pageCount, activePage }) => {
+
+   // Количество видимых страниц на пагинации
    const maxVisiblePages = 6;
-   const halfMaxVisiblePages = Math.floor(maxVisiblePages / 2);
+   // Половина от максимального количества видимых страниц
+   const halfMaxVisiblePages = Math.floor(maxVisiblePages / 2)
 
-   const startPage = Math.max(0, activePage - halfMaxVisiblePages);
-   const endPage = Math.min(pageCount - 1, startPage + maxVisiblePages - 1);
+   // Начальная страница, учитывая половину видимых страниц
+   const startPage = Math.max(0, activePage - halfMaxVisiblePages)
+   // Конечная страница, учитывая половину видимых страниц
+   const endPage = Math.min(pageCount - 1, startPage + maxVisiblePages - 1)
 
-   let pages = [];
+   // Массив для хранения видимых страниц
+   let pages = []
    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
+      pages.push(i)
    }
 
    return (

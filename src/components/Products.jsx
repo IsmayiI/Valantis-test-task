@@ -2,7 +2,8 @@ import Product from "./Product"
 import Loading from "./UI/Loading"
 
 const Products = ({ products, isLoading }) => {
-   console.log(products)
+
+   // Удаление дубликатов продуктов на основе их идентификаторов
    let uniqueProducts
    if (products) {
       uniqueProducts = products.reduce((acc, curObj) => {
@@ -17,35 +18,41 @@ const Products = ({ products, isLoading }) => {
       }, [])
    }
 
-   let content = <table className="table table-bordered">
-      <thead>
-         <tr>
-            <th style={{ width: '10px' }}>#</th>
-            <th>Name</th>
-            <th>Brand</th>
-            <th style={{ width: '40px' }}>Price</th>
-         </tr>
-      </thead>
-      <tbody>
-         {uniqueProducts.map((product) => {
-            return <Product key={product.id} {...product} />
-         })}
-      </tbody>
-   </table>
+   // Отображение основного контента
+   let content = (
+      <table className="table table-bordered">
+         <thead>
+            <tr>
+               <th style={{ width: '10px' }}>#</th>
+               <th>Name</th>
+               <th>Brand</th>
+               <th style={{ width: '40px' }}>Price</th>
+            </tr>
+         </thead>
+         <tbody>
+            {uniqueProducts.map((product) => {
+               return <Product key={product.id} {...product} />
+            })}
+         </tbody>
+      </table>
+   )
 
+   // Обработчик обновления страницы
    const onRefresh = () => {
       window.location.reload()
    }
 
+   // Проверка на загрузку данных
    if (isLoading) {
       content = <Loading />
    }
 
+   // Проверка на отсутствие данных и вывод сообщения "Not Found"
    if (!isLoading && !uniqueProducts.length) {
       content = (
          <div className="notFound">Not Found
             <br />
-            <button onClick={onRefresh} type="reset" className="btn btn-primary">
+            <button onClick={onRefresh} type="reset" className="btn btn-primary mt-3">
                Refresh
             </button>
          </div>
@@ -55,22 +62,6 @@ const Products = ({ products, isLoading }) => {
    return (
       <div className="card-body">
          {content}
-         {/* {isLoading ? <Loading /> : <table className="table table-bordered">
-            <thead>
-               <tr>
-                  <th style={{ width: '10px' }}>#</th>
-                  <th>Name</th>
-                  <th>Brand</th>
-                  <th style={{ width: '40px' }}>Price</th>
-               </tr>
-            </thead>
-            <tbody>
-               {uniqueProducts.map((product) => {
-                  return <Product key={product.id} {...product} />
-               })}
-            </tbody>
-         </table>}
-         {!isLoading && !products && <div style={{ display: "flex", justifyContent: "center", margin: "50px", fontSize: "20px" }}>Not Found</div>} */}
       </div>
    )
 }
