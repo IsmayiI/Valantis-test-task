@@ -162,18 +162,21 @@ function App() {
 
    // Обработчики для навигации по страницам
    const nextProductsHandler = () => {
+      document.getElementById('filter').classList.remove("void")
       if (activePage + 1 >= Math.ceil(productCount / LIMIT)) return
       setActivePage(prevPage => prevPage + 1)
       getProducts(offsetNum + LIMIT, existFilter)
    }
 
    const prevProductsHandler = () => {
+      document.getElementById('filter').classList.remove("void")
       if (offsetNum === 0) return
       setActivePage(prevPage => prevPage - 1)
       getProducts(offsetNum - LIMIT, existFilter)
    }
 
    const turnPageHandler = (page) => {
+      document.getElementById('filter').classList.remove("void")
       if (page === activePage) return
       setActivePage(page)
       if (page === 0) {
