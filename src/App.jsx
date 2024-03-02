@@ -185,6 +185,7 @@ function App() {
 
    // Обработчики для отправки и сброса фильтра
    const submitHandler = (filter) => {
+      setActivePage(0)
       setExistFilter(filter)
       getProducts(0, filter)
    }
