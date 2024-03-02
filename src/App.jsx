@@ -6,7 +6,7 @@ import axios from "axios"
 import Form from "./components/Form"
 
 // URL и лимит продуктов на странице
-const URL = 'http://api.valantis.store:40000/'
+const URL = 'https://api.valantis.store:41000/'
 const LIMIT = 50
 
 
@@ -26,76 +26,68 @@ function App() {
 
    // Функция для получения идентификаторов продуктов с сервера
    async function fetchIds(offset) {
-
       try {
          const token = generateToken();
+         const headers = {
+            "X-Auth": `${token}`,
+            "Content-Type": "application/json"
+         };
 
-         let response;
+         let body = {
+            action: "get_ids"
+         };
 
          if (offset === 0 || offset) {
-            response = await axios({
-               method: 'POST',
-               url: URL,
-               headers: {
-                  "X-Auth": `${token}`,
-                  "Content-Type": "application/json"
-               },
-               data: {
-                  action: "get_ids",
-                  params: { offset, limit: LIMIT }
-               }
-            })
-         } else {
-            response = await axios({
-               method: 'POST',
-               url: URL,
-               headers: {
-                  "X-Auth": `${token}`,
-                  "Content-Type": "application/json"
-               },
-               data: {
-                  action: "get_ids"
-               }
-            })
+            body.params = { offset, limit: LIMIT };
          }
 
-         if (response.statusText !== 'OK') throw new Error('Ошибка функции запроса "fetchIds"!')
+         const response = await fetch(URL, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(body)
+         });
 
-         const data = await response.data
-         return data.result
+         if (!response.ok) {
+            throw new Error(`Ошибка запроса "fetchIds"`);
+         }
+
+         const data = await response.json();
+         return data.result;
       } catch (error) {
-         console.error("Error fetching IDs:", error);
+         console.error("Ошибка при выполнении запроса fetchIds:", error);
       }
-
    }
+
 
    // Функция для получения продуктов по их идентификаторам
    async function fetchProducts(arrIDs) {
-
       try {
          const token = generateToken();
+         const headers = {
+            "X-Auth": `${token}`,
+            "Content-Type": "application/json"
+         };
 
-         const response = await axios({
+         const response = await fetch(URL, {
             method: 'POST',
-            url: URL,
-            headers: {
-               "X-Auth": `${token}`,
-               "Content-Type": "application/json"
-            },
-            data: {
+            headers,
+            body: JSON.stringify({
                action: "get_items",
                params: { "ids": arrIDs }
-            }
-         })
+            })
+         });
 
-         if (response.statusText !== 'OK') throw new Error('Ошибка функции запроса "fetchProducts"!')
+         if (!response.ok) {
+            throw new Error(`Ошибка запроса "fetchProducts"`);
+         }
 
-         const data = await response.data
-         return data.result
+         const data = await response.json();
+         return data.result;
       } catch (error) {
-         console.error("Error fetching products:", error);
+         console.error("Ошибка при выполнении запроса fetchProducts:", error);
       }
    }
+
 
    // Функция для получения продуктов с учетом фильтрации
    async function getProducts(offset, filter) {
@@ -141,31 +133,33 @@ function App() {
 
    // Функция для получения идентификаторов отфильтрованных продуктов
    async function fetchFilteredProducts({ filterKey, filterValue }) {
-
       try {
          const token = generateToken();
+         const headers = {
+            "X-Auth": `${token}`,
+            "Content-Type": "application/json"
+         };
 
-         const response = await axios({
+         const response = await fetch(URL, {
             method: 'POST',
-            url: URL,
-            headers: {
-               "X-Auth": `${token}`,
-               "Content-Type": "application/json"
-            },
-            data: {
+            headers,
+            body: JSON.stringify({
                "action": "filter",
                "params": { [filterKey]: filterValue }
-            }
-         })
-         if (response.statusText !== 'OK') throw new Error('Ошибка функции запроса "fetchFilteredProducts"!')
+            })
+         });
 
+         if (!response.ok) {
+            throw new Error(`Ошибка запроса "fetchFilteredProducts"`);
+         }
 
-         const data = await response.data
-         return data.result
+         const data = await response.json();
+         return data.result;
       } catch (error) {
-         console.error("Error fetching products:", error);
+         console.error("Ошибка при выполнении запроса fetchFilteredProducts:", error);
       }
    }
+
 
 
    // Обработчики для навигации по страницам
