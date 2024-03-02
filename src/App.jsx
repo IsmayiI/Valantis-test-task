@@ -27,46 +27,45 @@ function App() {
    // Функция для получения идентификаторов продуктов с сервера
    async function fetchIds(offset) {
       try {
-         const token = generateToken();
+         const token = generateToken()
          const headers = {
             "X-Auth": `${token}`,
             "Content-Type": "application/json"
-         };
+         }
 
          let body = {
             action: "get_ids"
-         };
+         }
 
          if (offset === 0 || offset) {
-            body.params = { offset, limit: LIMIT };
+            body.params = { offset, limit: LIMIT }
          }
 
          const response = await fetch(URL, {
             method: 'POST',
             headers,
             body: JSON.stringify(body)
-         });
+         })
 
          if (!response.ok) {
-            throw new Error(`Ошибка запроса "fetchIds"`);
+            throw new Error(`Ошибка запроса "fetchIds"`)
          }
 
-         const data = await response.json();
-         return data.result;
+         const data = await response.json()
+         return data.result
       } catch (error) {
-         console.error("Ошибка при выполнении запроса fetchIds:", error);
+         console.error("Ошибка при выполнении запроса fetchIds:", error)
       }
    }
-
 
    // Функция для получения продуктов по их идентификаторам
    async function fetchProducts(arrIDs) {
       try {
-         const token = generateToken();
+         const token = generateToken()
          const headers = {
             "X-Auth": `${token}`,
             "Content-Type": "application/json"
-         };
+         }
 
          const response = await fetch(URL, {
             method: 'POST',
@@ -75,19 +74,18 @@ function App() {
                action: "get_items",
                params: { "ids": arrIDs }
             })
-         });
+         })
 
          if (!response.ok) {
             throw new Error(`Ошибка запроса "fetchProducts"`);
          }
 
-         const data = await response.json();
-         return data.result;
+         const data = await response.json()
+         return data.result
       } catch (error) {
-         console.error("Ошибка при выполнении запроса fetchProducts:", error);
+         console.error("Ошибка при выполнении запроса fetchProducts:", error)
       }
    }
-
 
    // Функция для получения продуктов с учетом фильтрации
    async function getProducts(offset, filter) {
@@ -95,7 +93,7 @@ function App() {
          setIsLoading(true)
          setIsError(false)
          setOffsetNum(offset)
-         let products;
+         let products
 
          if (filter) {
             const filteredIds = await fetchFilteredProducts(filter);
@@ -126,7 +124,7 @@ function App() {
          return products
       } catch (error) {
          setIsError(true)
-         console.error("Error getting products:", error);
+         console.error("Error getting products:", error)
       }
 
    }
@@ -134,11 +132,11 @@ function App() {
    // Функция для получения идентификаторов отфильтрованных продуктов
    async function fetchFilteredProducts({ filterKey, filterValue }) {
       try {
-         const token = generateToken();
+         const token = generateToken()
          const headers = {
             "X-Auth": `${token}`,
             "Content-Type": "application/json"
-         };
+         }
 
          const response = await fetch(URL, {
             method: 'POST',
@@ -147,16 +145,16 @@ function App() {
                "action": "filter",
                "params": { [filterKey]: filterValue }
             })
-         });
+         })
 
          if (!response.ok) {
-            throw new Error(`Ошибка запроса "fetchFilteredProducts"`);
+            throw new Error(`Ошибка запроса "fetchFilteredProducts"`)
          }
 
-         const data = await response.json();
-         return data.result;
+         const data = await response.json()
+         return data.result
       } catch (error) {
-         console.error("Ошибка при выполнении запроса fetchFilteredProducts:", error);
+         console.error("Ошибка при выполнении запроса fetchFilteredProducts:", error)
       }
    }
 
