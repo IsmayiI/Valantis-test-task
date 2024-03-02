@@ -1,0 +1,12 @@
+.notFound {
+   text-align: center;
+   margin: 50px;
+   padding: 50px;
+   font-Size: 20px;
+   border: 1px solid rgb(222, 226, 230);
+   background-color: rgba(33, 37, 41, 0.03);
+}
+
+.void {
+   border: 2px solid red;
+}
