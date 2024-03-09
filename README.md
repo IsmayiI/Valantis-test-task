@@ -1,8 +1,15 @@
-# React + Vite
+# Displaying a List of Products Using Valantis API
+This project is a web page created using JavaScript, React, and Bootstrap to showcase a list of products from the Valantis API.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Features
+ **🚀 Bidirectional Pagination**: 
+Displays 50 products per page with the ability to go both ways. It is also possible to click on page numbers and go to the very end or beginning of the list.
 
-Currently, two official plugins are available:
+ **🔍 Filtering**:
+Enables convenient filtering of products by name, price, and brand. The entered data undergoes validation, and users receive notifications in case of incorrect input.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**🛠 API Error Handling**:
+In case of API errors, the error identifier is logged to the console, and the request is retried for reliability.
+
+**🔄 Uniqueness of Products by ID**:
+In the presence of duplicate IDs, only the first product is displayed.
